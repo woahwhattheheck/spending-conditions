@@ -65,13 +65,13 @@ async function main() {
 
           let res = await provider.send('plasma_unspent', [spAddr]);
 
-          if (res.length) {
-            if (!txs) {
-              txs = res.map(t => t.outpoint);
-              resolve(false);
-              return;
-            }
+          if (!txs) {
+            txs = res.map(t => t.outpoint);
+            resolve(false);
+            return;
+          }
 
+          if (res.length) {
             [newTxHash] = res.filter(t => txs.indexOf(t.outpoint) < 0);
             if (newTxHash) {
               txHash = newTxHash.outpoint.substring(0, 66);
