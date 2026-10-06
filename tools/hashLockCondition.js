@@ -54,6 +54,7 @@ async function main() {
 
   console.log(`Please send some tokens to ` + spAddr);
 
+  let txHash;
   let txs;
 
   while (true) {
@@ -72,9 +73,9 @@ async function main() {
           }
 
           if (res.length) {
-            [newTxHash] = res.filter(t => txs.indexOf(t.outpoint) < 0);
-            if (newTxHash) {
-              txHash = newTxHash.outpoint.substring(0, 66);
+            const [newTx] = res.filter(t => txs.indexOf(t.outpoint) < 0);
+            if (newTx) {
+              txHash = newTx.outpoint.substring(0, 66);
               console.log(`found new unspent UTXO(${txHash})`);
               resolve(true);
               return;
